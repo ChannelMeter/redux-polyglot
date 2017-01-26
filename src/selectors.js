@@ -41,25 +41,34 @@ const getTranslationUpperCased = (...args) => getTranslationMorphed(...args)(toU
 const getTranslationCapitalized = (...args) => getTranslationMorphed(...args)(capitalize);
 const getTranslationTitleized = (...args) => getTranslationMorphed(...args)(titleize);
 
-const createGetP = (polyglotOptions) => (state, { polyglotScope } = {}) => {
-    if (!getLocale(state) || !getPhrases(state)) {
-        return {
-            t: identity,
-            tc: identity,
-            tt: identity,
-            tu: identity,
-            tm: identity,
-        };
-    }
-    const options = { polyglotScope, polyglotOptions };
-    return {
-        ...getPolyglot(state, options),
-        t: getTranslation(state, options),
-        tc: getTranslationCapitalized(state, options),
-        tt: getTranslationTitleized(state, options),
-        tu: getTranslationUpperCased(state, options),
-        tm: getTranslationMorphed(state, options),
-    };
+const createGetP = (polyglotOptions) => {
+    const getP = createSelector(
+        getLocale,
+        getPhrases,
+        getPolyglot,
+        getTranslation,
+        getTranslationCapitalized,
+        getTranslationUpperCased,
+        getTranslationMorphed,
+        (locale, phrases, p, t, tc, tu, tm) => {
+            if (!locale || !phrases) {
+                return {
+                    t: identity,
+                    tc: identity,
+                    tu: identity,
+                    tm: identity,
+                };
+            }
+            return {
+                ...p,
+                t,
+                tc,
+                tu,
+                tm,
+            };
+        },
+    );
+    return (state, options) => getP(state, { ...options, polyglotOptions });
 };
 
 const getP = createGetP();

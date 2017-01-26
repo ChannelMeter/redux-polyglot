@@ -92,27 +92,24 @@ var getTranslationTitleized = function getTranslationTitleized() {
 };
 
 var createGetP = function createGetP(polyglotOptions) {
-    return function (state) {
-        var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-            polyglotScope = _ref3.polyglotScope;
-
-        if (!getLocale(state) || !getPhrases(state)) {
+    var getP = (0, _reselect.createSelector)(getLocale, getPhrases, getPolyglot, getTranslation, getTranslationCapitalized, getTranslationUpperCased, getTranslationMorphed, function (locale, phrases, p, t, tc, tu, tm) {
+        if (!locale || !phrases) {
             return {
                 t: _utils.identity,
                 tc: _utils.identity,
-                tt: _utils.identity,
                 tu: _utils.identity,
                 tm: _utils.identity
             };
         }
-        var options = { polyglotScope: polyglotScope, polyglotOptions: polyglotOptions };
-        return _extends({}, getPolyglot(state, options), {
-            t: getTranslation(state, options),
-            tc: getTranslationCapitalized(state, options),
-            tt: getTranslationTitleized(state, options),
-            tu: getTranslationUpperCased(state, options),
-            tm: getTranslationMorphed(state, options)
+        return _extends({}, p, {
+            t: t,
+            tc: tc,
+            tu: tu,
+            tm: tm
         });
+    });
+    return function (state, options) {
+        return getP(state, _extends({}, options, { polyglotOptions: polyglotOptions }));
     };
 };
 
