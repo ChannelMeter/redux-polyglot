@@ -12,6 +12,7 @@
     "wtest": "npm run watch-test",
     "prepublish": "node scripts/prepublish.js",
     "postpublish": "echo --- PUBLISHED ---",
+    "postinstall": "node scripts/prepublish.js",
     "lint": "eslint --max-warnings 0 src"
   },
   "repository": {
