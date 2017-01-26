@@ -48,13 +48,15 @@ const createGetP = (polyglotOptions) => {
         getPolyglot,
         getTranslation,
         getTranslationCapitalized,
+        getTranslationTitleized,
         getTranslationUpperCased,
         getTranslationMorphed,
-        (locale, phrases, p, t, tc, tu, tm) => {
+        (locale, phrases, p, t, tc, tt, tu, tm) => {
             if (!locale || !phrases) {
                 return {
                     t: identity,
                     tc: identity,
+                    tt: identity,
                     tu: identity,
                     tm: identity,
                 };
@@ -63,6 +65,7 @@ const createGetP = (polyglotOptions) => {
                 ...p,
                 t,
                 tc,
+                tt,
                 tu,
                 tm,
             };

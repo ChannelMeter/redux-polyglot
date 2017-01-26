@@ -92,11 +92,12 @@ var getTranslationTitleized = function getTranslationTitleized() {
 };
 
 var createGetP = function createGetP(polyglotOptions) {
-    var getP = (0, _reselect.createSelector)(getLocale, getPhrases, getPolyglot, getTranslation, getTranslationCapitalized, getTranslationUpperCased, getTranslationMorphed, function (locale, phrases, p, t, tc, tu, tm) {
+    var getP = (0, _reselect.createSelector)(getLocale, getPhrases, getPolyglot, getTranslation, getTranslationCapitalized, getTranslationTitleized, getTranslationUpperCased, getTranslationMorphed, function (locale, phrases, p, t, tc, tt, tu, tm) {
         if (!locale || !phrases) {
             return {
                 t: _utils.identity,
                 tc: _utils.identity,
+                tt: _utils.identity,
                 tu: _utils.identity,
                 tm: _utils.identity
             };
@@ -104,6 +105,7 @@ var createGetP = function createGetP(polyglotOptions) {
         return _extends({}, p, {
             t: t,
             tc: tc,
+            tt: tt,
             tu: tu,
             tm: tm
         });
